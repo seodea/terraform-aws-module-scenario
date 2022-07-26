@@ -3,7 +3,7 @@
 module "vpc" {
     source = "../../module/vpc"
 
-    company = "mz"
+    company = var.company
 
     environment = "tf-test"
     
