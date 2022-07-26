@@ -2,7 +2,7 @@
 
 module "vpc" {
     #source = "../../module/vpc"
-    source = "git@github.com:seodea/terraform-AWS-module-scenario.git"
+    source = "git@github.com:seodea/terraform-AWS-module-scenario/module/vpc.git"
 
     company = var.company
 
