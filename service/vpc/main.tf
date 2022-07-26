@@ -1,7 +1,8 @@
 # vpc module
 
 module "vpc" {
-    source = "../../module/vpc"
+    #source = "../../module/vpc"
+    source = "git::https://github.com/seodea/AWS_tf_module_scenario/module/vpc.git?ref=master"
 
     company = var.company
 
