@@ -9,10 +9,10 @@ terraform {
   }
 
 #   backend "s3" {
-#     bucket         = "kis-mts-test-tf-state-backend"
-#     key            = "961030948515/test/bond-bill/config-rule/terraform.state"
+#     bucket         = "bucket name"
+#     key            = "path"
 #     region         = "ap-northeast-2"
-#     dynamodb_table = "kis-mts-test-tf-state-locks" # 다이나모 테이블 이름 변경 가능(필요 시)
+#     dynamodb_table = "table name" # 다이나모 테이블 이름 변경 가능(필요 시)
 #     encrypt        = true
 #     profile        = "default"
 #   }  
