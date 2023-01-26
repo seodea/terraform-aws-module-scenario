@@ -1,3 +1,0 @@
-# Test
-
-## terraform module test
