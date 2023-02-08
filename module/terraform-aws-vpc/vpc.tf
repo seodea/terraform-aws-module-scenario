@@ -5,11 +5,39 @@
 resource "aws_vpc" "this" {
 
   # cidr_block = var.use_ipam_pool ? null : var.cidr
-  cidr_block = var.cidr
+  cidr_block = var.vpc_cidr
   
   tags = merge(
-    { "Name" = var.name },
     var.tags,
+    { 
+      "Name" = format("%s-%s-vpc",
+        var.env,
+        var.name
+      )
+    }
+  )
+}
+
+################################################################################
+# subnet
+################################################################################
+
+resource "aws_subnet" "this" {
+  vpc_id  = aws_vpc.this.id
+  for_each = { for i in local.all_subnet : i.cidr => i }
+  availability_zone  = var.azs[index(var.subnet[each.value.name].cidr, each.key)]
+
+  cidr_block = each.value.cidr
+
+  tags = merge(
+    var.tags,
+    {
+      "Name" = format("%s-%s-%s-subnet", 
+        var.name, 
+        each.value.name,
+        split("-", var.azs[index(var.subnet[each.value.name].cidr, each.key)])[2]
+      )
+    }
   )
 }
 
@@ -17,26 +45,55 @@ resource "aws_vpc" "this" {
 # Internet Gateway
 ################################################################################
 
-# resource "aws_internet_gateway" "this" {
-#   count = local.create_vpc && var.create_igw && length(var.public_subnets) > 0 ? 1 : 0
+resource "aws_internet_gateway" "this" {
+  count = var.enable_internet_gateway == true ? 1 : 0
+  vpc_id = aws_vpc.this.id
 
-#   vpc_id = local.vpc_id
+  tags = merge(
+    var.tags,
+    { 
+      "Name" = format("%s-igw", 
+        var.name
+      )
+    }
+  )
+}
 
-#   tags = merge(
-#     { "Name" = var.name },
-#     var.tags,
-#     var.igw_tags,
-#   )
-# }
+################################################################################
+# NAT Gateway
+################################################################################
 
-# resource "aws_egress_only_internet_gateway" "this" {
-#   count = local.create_vpc && var.create_egress_only_igw && var.enable_ipv6 && local.max_subnet_length > 0 ? 1 : 0
+resource "aws_eip" "this" {
+  vpc = true
+  for_each = { for i in local.natgw_subnet : i.cidr => i }
 
-#   vpc_id = local.vpc_id
+  tags = merge(
+    {
+      "Name" = format("%s-%s-%s-eip", 
+        var.name, 
+        each.value.name, 
+        split("-", var.azs[index(var.subnet[each.value.name].cidr, each.key)])[2]
+      )      
+    },
+    var.tags
+  )
+}
 
-#   tags = merge(
-#     { "Name" = var.name },
-#     var.tags,
-#     var.igw_tags,
-#   )
-# }
+resource "aws_nat_gateway" "this" {
+  for_each = { for i in local.natgw_subnet : i.cidr => i }
+
+  allocation_id = aws_eip.this[each.key].id
+  subnet_id = aws_subnet.this[each.key].id
+
+  tags = merge(
+    {
+      "Name" = format("%s-%s-nat",
+        var.name, 
+        split("-", var.azs[index(var.subnet[each.value.name].cidr, each.key)])[2]
+      )
+    },
+    var.tags
+  )
+
+  depends_on = [aws_internet_gateway.this]
+}

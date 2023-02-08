@@ -1,0 +1,99 @@
+.default:
+  image: 'busybox:latest'
+  before_script:
+    - echo Hello World
+
+# 공통 anchor 설정 
+.common-feature: &common-feature
+  allow_failure: false
+  tags :
+   - sdh-test-runner
+
+.some-script-before: &some-script-before
+  - echo "Execute this script first"
+  - sleep 5
+
+.some-script: &some-script
+  - echo "Execute this script second"
+  - echo "Execute this script too"
+
+.some-script-after: &some-script-after
+  - echo "Execute this script last"
+  - sleep 5
+
+.tags-info: &tags-info
+  tags : 
+    - sdh-test-runner
+    
+
+###############
+# 공통 변수 값 설정
+###############
+
+variables:
+  TF_DIR : "vpc"
+  TAGS   : "sdh-test-runner"
+
+###############
+# CI Pipeline
+###############
+
+stages:
+  - validation
+  - plan
+  - apply
+  - delete
+
+validation:
+  stage: validation
+  <<: *common-feature
+  before_script:
+    - *some-script-before
+
+  script:
+    - echo "VPC terraform validation"
+    - *some-script
+  
+  after_script:
+    - *some-script-after
+  
+  # tags:
+  #   - ${TAGS}
+
+plan:
+  stage: plan
+  <<: *common-feature
+  
+  script :
+   - | 
+    echo "This is anchorr test script #1"
+    sleep 5
+    echo "Good luck"
+    echo "VPC terraform plan"
+    echo "test file" >> ./plan.txt
+  artifacts:
+    paths:
+      - ./plan.txt
+  
+  # tags:
+  # - ${TAGS}
+
+apply:
+  stage: apply
+  <<: *common-feature
+  script:
+    - echo "VPC terraform apply"
+    - ls -l
+    - cat ./plan.txt
+  when: manual
+  # tags:
+  # - ${TAGS}
+
+
+
+.delete:
+  stage: delete
+  script:
+    - echo "VPC terraform delete"
+  tags:
+  - ${TAGS}
