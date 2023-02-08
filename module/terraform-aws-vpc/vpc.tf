@@ -69,9 +69,8 @@ resource "aws_eip" "this" {
 
   tags = merge(
     {
-      "Name" = format("%s-%s-%s-eip", 
+      "Name" = format("%s-%s-nat-eip", 
         var.name, 
-        each.value.name, 
         split("-", var.azs[index(var.subnet[each.value.name].cidr, each.key)])[2]
       )      
     },

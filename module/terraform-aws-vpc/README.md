@@ -1,7 +1,8 @@
 # 해당 Terraform Module 사용 방법
 
 ## 1. main.tf
-
+main.tf은 수정이 필요없게 구성을 하여 사용자는 따로 수정이 필요하지 않습니다.
+VPC naming 규칙 : `{env}-{name}-vpc`
 ```
 module vpc {
     source = "../../../module/terraform-aws-vpc"
