@@ -2,6 +2,7 @@ module route {
     source = "../../../../module/terraform-aws-route"
 
     env = var.env
+    project = var.project
     name = var.name
     
     vpc_id     = data.aws_vpc.this.id

@@ -1,7 +1,6 @@
-.default:
+# 공통 이미지 및 scripte 내용
+default:
   image: 'busybox:latest'
-  before_script:
-    - echo Hello World
 
 # 공통 anchor 설정 
 .common-feature: &common-feature
@@ -42,20 +41,21 @@ stages:
   - validation
   - plan
   - apply
-  - delete
+  - destroy
 
 validation:
   stage: validation
   <<: *common-feature
-  before_script:
-    - *some-script-before
+
+  # before_script:
+  #   - *some-script-before
 
   script:
     - echo "VPC terraform validation"
-    - *some-script
+    - terraform validate
   
-  after_script:
-    - *some-script-after
+  # after_script:
+  #   - *some-script-after
   
   # tags:
   #   - ${TAGS}
@@ -65,12 +65,9 @@ plan:
   <<: *common-feature
   
   script :
-   - | 
-    echo "This is anchorr test script #1"
-    sleep 5
-    echo "Good luck"
+   - |
     echo "VPC terraform plan"
-    echo "test file" >> ./plan.txt
+    terraform plan -out=plan.txt -refresh=false
   artifacts:
     paths:
       - ./plan.txt
@@ -81,19 +78,25 @@ plan:
 apply:
   stage: apply
   <<: *common-feature
+
   script:
-    - echo "VPC terraform apply"
-    - ls -l
-    - cat ./plan.txt
+   - |
+     echo "VPC terraform apply"
+     terraform apply plan.txt
   when: manual
   # tags:
   # - ${TAGS}
 
 
 
-.delete:
-  stage: delete
+.destroy:
+  stage: destroy
+  <<: *common-feature
+  
   script:
-    - echo "VPC terraform delete"
-  tags:
-  - ${TAGS}
+    - |
+    echo "VPC terraform destroy"
+    terraform destroy plan.txt
+
+  # tags:
+  # - ${TAGS}

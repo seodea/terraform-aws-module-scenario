@@ -19,7 +19,7 @@ data "aws_security_groups" "this" {
 
   filter {
     name   = "tag:Name"
-    values = [format("%s-%s-sg", var.env, var.name)]
+    values = [format("%s-%s-%s-sg", var.env, var.project, var.name)]
   }
 }
 
