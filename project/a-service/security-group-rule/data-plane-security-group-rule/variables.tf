@@ -10,13 +10,13 @@ variable "name" {
 variable "vpc_filter_name" { 
     type = map(string)
 }
-variable "subnet_filter_name" { 
+variable "control_plane_sg" { 
     type = map(string)
 }
-variable "internet_gateway_filter_name" { 
+variable "alb_sg" { 
     type = map(string)
 }
-variable "nat_gateway_filter_name" { 
+variable "endpoint_sg" { 
     type = map(string)
 }
 variable "tags" { 

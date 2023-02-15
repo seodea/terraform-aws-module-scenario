@@ -4,6 +4,9 @@ variable "env" {
 variable "name" { 
     type = string
 }
+variable "project" { 
+    type = string
+}
 variable "vpc_filter_name" { 
     type = map(string)
 }

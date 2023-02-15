@@ -7,7 +7,7 @@ resource "aws_route_table" "this" {
   vpc_id = var.vpc_id
 
   tags = merge(
-    { "Name" = format("%s-%s-rt", var.env, var.name) },
+    { "Name" = format("%s-%s-%s-rt", var.env, var.project ,var.name) },
     var.tags
   )
 }

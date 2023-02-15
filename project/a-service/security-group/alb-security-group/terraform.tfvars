@@ -1,9 +1,10 @@
 
 env = "dev"
+project = "sdh"
 name = "worknode"
 
 vpc_filter_name = {
-  Name = "dev-a-service-vpc"
+  Name = "dev-sdh-a-service-vpc"
 }
 
 # sg_filter_name_01 = {

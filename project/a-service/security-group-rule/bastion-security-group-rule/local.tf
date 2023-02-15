@@ -12,38 +12,27 @@
 
 locals {
   sg_rule = {
-    ingress_cidr_worknode_dns_tcp = {
+    ingress_cidr_ssh_22_tcp = {
       type = "ingress"
       protocol = "6" #tcp or 6
       to_port = 22
-      from_port = 2
+      from_port = 22
       cidr_block = ["1.1.1.1/32", "2.2.2.2/32"]
       prefix_list_ids = []
       self = false
       source_security_group_id = ""
       description = "all access all tcp from office ip"
     },
-    ingress_prefix_worknode_to_s3_443_tcp = {
-      type = "ingress"
-      protocol = "tcp"
-      to_port = 443
-      from_port = 443
-      cidr_block = []
-      prefix_list_ids = ["pl-78a54011"]
-      self = false
-      source_security_group_id = ""
-      description = ""
-    },
-    ingress_self_worknode_all = { 
+    egress_cidr_internet_all = { 
       type = "ingress"
       protocol = "-1"
       to_port = 0
       from_port = 65535
-      cidr_block = []
+      cidr_block = ["0.0.0.0/0"]
       prefix_list_ids = []
       self = true
       source_security_group_id = ""
-      description = ""
+      description = "all access to internet"
     }
   }
 }

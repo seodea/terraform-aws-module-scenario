@@ -1,9 +1,10 @@
 
 env = "dev"
+project = "sdh"
 name = "eks"
 
 vpc_filter_name = {
-  Name = "dev-a-service-vpc"
+  Name = "dev-sdh-a-service-vpc"
 }
 subnet_filter_name = {
   # Name = "sdh-eks-2a-subnet" # 단일

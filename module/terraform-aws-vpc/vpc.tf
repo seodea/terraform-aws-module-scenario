@@ -1,17 +1,17 @@
 ################################################################################
-# VPC
+# VPC (naming : {env}-{project}-{name}-vpc)
 ################################################################################
 
 resource "aws_vpc" "this" {
 
-  # cidr_block = var.use_ipam_pool ? null : var.cidr
   cidr_block = var.vpc_cidr
   
   tags = merge(
     var.tags,
     { 
-      "Name" = format("%s-%s-vpc",
+      "Name" = format("%s-%s-%s-vpc",
         var.env,
+        var.project,
         var.name
       )
     }
@@ -19,7 +19,7 @@ resource "aws_vpc" "this" {
 }
 
 ################################################################################
-# subnet
+# subnet (naming : {name}-{subnet용도}-{zone}-subnet)
 ################################################################################
 
 resource "aws_subnet" "this" {

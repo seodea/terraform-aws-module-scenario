@@ -1,10 +1,11 @@
 
 env = "dev"
+project = "sdh"
 name = "alb"
 
-# {env}-{name}-vpc
+# {env}-{project}-{name}-vpc
 vpc_filter_name = {
-  Name = "dev-a-service-vpc" 
+  Name = "dev-sdh-a-service-vpc" 
 }
 
 # {env}-igw

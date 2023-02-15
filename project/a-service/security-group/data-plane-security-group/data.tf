@@ -11,14 +11,3 @@ data "aws_vpc" "this" {
     }
   }
 }
-data "aws_security_groups" "this" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.this.id]
-  }
-
-  filter {
-    name   = "tag:Name"
-    values = [format("%s-%s-sg", var.env, var.name)]
-  }
-}

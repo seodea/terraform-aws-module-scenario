@@ -12,83 +12,27 @@
 
 locals {
   sg_rule = {
-    ingress_cidr_worknode_dns_tcp = {
+    ingress_cidr_internet_https_443_tcp = {
       type = "ingress"
       protocol = "6" #tcp or 6
-      to_port = 53
-      from_port = 53
-      cidr_block = ["1.1.1.0/24", "2.2.2.0/24"]
-      prefix_list_ids = []
-      self = false
-      source_security_group_id = ""
-      description = "all access all tcp from office ip"
-    },
-    ingress_prefix_worknode_to_s3_443_tcp = {
-      type = "ingress"
-      protocol = "tcp"
       to_port = 443
       from_port = 443
-      cidr_block = []
-      prefix_list_ids = ["pl-78a54011"]
+      cidr_block = ["0.0.0.0/0"]
+      prefix_list_ids = []
       self = false
       source_security_group_id = ""
-      description = "allow access to s3"
+      description = "all access https from internet"
     },
-    ingress_self_worknode_all = { 
+    ingress_cidr_internet_http_80_tcp = {
       type = "ingress"
-      protocol = "-1"
-      to_port = 0
-      from_port = 65535
-      cidr_block = []
-      prefix_list_ids = []
-      self = true
-      source_security_group_id = ""
-      description = ""
-    },
-    ingress_sg_alb_80_tcp = {
-      type = "ingress"
-      protocol = "tcp"
+      protocol = "6" #tcp or 6
       to_port = 80
       from_port = 80
-      cidr_block = []
+      cidr_block = ["0.0.0.0/0"]
       prefix_list_ids = []
-      self = []
-      source_security_group_id = join("", data.aws_security_groups.security_group_01.ids)
-      description = ""
-    },
-    ingress_sg_control_plan_10250_tcp = {
-      type = "ingress"
-      protocol = "tcp"
-      to_port = 10250
-      from_port = 10250
-      cidr_block = []
-      prefix_list_ids = []
-      self = []
-      source_security_group_id = join("", data.aws_security_groups.security_group_02.ids)
-      description = ""
-    },
-    engress_sg_control_plan_10250_tcp = {
-      type = "egress"
-      protocol = "tcp"
-      to_port = 10250
-      from_port = 10250
-      cidr_block = []
-      prefix_list_ids = []
-      self = []
-      source_security_group_id = join("", data.aws_security_groups.security_group_01.ids)
-      description = ""
-    },
-    engress_sg_control_plan_443_tcp = {
-      type = "egress"
-      protocol = "tcp"
-      to_port = 443
-      from_port = 443
-      cidr_block = []
-      prefix_list_ids = []
-      self = []
-      source_security_group_id = join("", data.aws_security_groups.security_group_02.ids)
-      description = ""
-    },
-
+      self = false
+      source_security_group_id = ""
+      description = "all access http from internet"
+    }
   }
 }
