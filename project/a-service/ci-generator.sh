@@ -1,5 +1,14 @@
+#!/bin/bash
+dir=$(find . -maxdepth 2 -type d)
+
+for folder in $dir
+do
+if [ -e "$(find $folder -name '*.tfvars')" ]
+then
+
+cat << EOF > $folder/.gitlab-ci.yml
 .terraform-init: &terraform-init-module
-  - cd ${TF_DIR}
+  - cd \${TF_DIR}
   - terraform init -reconfigure -get=true -upgrade
 
 .common-feature: &common-feature
@@ -14,7 +23,7 @@
   cache:
     - key: terraform
       paths:
-        - ${TF_DIR}.terraform
+        - \${TF_DIR}.terraform
       policy: pull-push
 
 
@@ -38,7 +47,7 @@ before-script: &before-script
 ###############
 
 variables:
-  TF_DIR : "./vpc"
+  TF_DIR : "$folder"
   TAGS   : "sdh-test-runner"
 
 ###############
@@ -69,7 +78,7 @@ stages:
   #   refs:
   #     - main
   # tags:
-  #   - ''
+  #   - '${TAGS}'
 
 validate:
   stage: validate
@@ -81,13 +90,13 @@ validate:
     - env
     - pwd
   script:
-    - echo "./vpc terraform validate"
+    - echo "$folder terraform validate"
     - terraform validate
   after_script:
-    - ls ${TF_DIR}/.terraform
+    - ls \${TF_DIR}/.terraform
   
   # tags:
-  #   - ''
+  #   - '${TAGS}'
 
 plan:
   stage: plan
@@ -99,19 +108,19 @@ plan:
     - terraform version
   script :
    - |
-    echo "./vpc terraform plan"
+    echo "$folder terraform plan"
     terraform plan -refresh=false -out=planfile 
   after_script:
-    - ls ${TF_DIR}/.terraform
+    - ls \${TF_DIR}/.terraform
     - pwd
   dependencies:
     - validate
   artifacts:
     paths:
-      - ${TF_DIR}/planfile
+      - \${TF_DIR}/planfile
   
   # tags:
-  # - ''
+  # - '${TAGS}'
 
 .apply:
   stage: apply
@@ -145,3 +154,7 @@ plan:
   needs:
     - destroy-plan
   when: manual
+EOF
+
+fi
+done

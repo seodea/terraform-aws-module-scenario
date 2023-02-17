@@ -8,13 +8,14 @@ terraform {
     }
   }
 
-#   backend "s3" {
-#     bucket         = "bucket name"
-#     key            = "path"
-#     region         = "ap-northeast-2"
-#     dynamodb_table = "table name" # 다이나모 테이블 이름 변경 가능(필요 시)
-#     encrypt        = true
-#     profile        = "default"
-#   }  
+  backend "s3" {
+    bucket         = "sdh-dev-tf-state-backend"
+    key            = "932824558442/dev/route-table/alb-route-table"
+    region         = "ap-northeast-2"
+    # dynamodb setting
+    # dynamodb_table = "table name" # dynamodb 테이블 이름 변경 가능(필요 시)
+    # encrypt        = true
+    # profile        = "default"
+  }    
 
 }

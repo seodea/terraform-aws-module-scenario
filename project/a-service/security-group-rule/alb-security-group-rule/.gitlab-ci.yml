@@ -38,7 +38,7 @@ before-script: &before-script
 ###############
 
 variables:
-  TF_DIR : "./vpc"
+  TF_DIR : "./security-group-rule/alb-security-group-rule"
   TAGS   : "sdh-test-runner"
 
 ###############
@@ -81,7 +81,7 @@ validate:
     - env
     - pwd
   script:
-    - echo "./vpc terraform validate"
+    - echo "./security-group-rule/alb-security-group-rule terraform validate"
     - terraform validate
   after_script:
     - ls ${TF_DIR}/.terraform
@@ -99,7 +99,7 @@ plan:
     - terraform version
   script :
    - |
-    echo "./vpc terraform plan"
+    echo "./security-group-rule/alb-security-group-rule terraform plan"
     terraform plan -refresh=false -out=planfile 
   after_script:
     - ls ${TF_DIR}/.terraform
