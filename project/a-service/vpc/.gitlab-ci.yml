@@ -20,7 +20,7 @@
 
 # For Example
 
-before-script: &before-script
+.before-script: &before-script
   - echo "Execute this script first"
   - sleep 5
 
@@ -38,7 +38,7 @@ before-script: &before-script
 ###############
 
 variables:
-  TF_DIR : "./vpc"
+  TF_DIR : "a-service/vpc"
   TAGS   : "sdh-test-runner"
 
 ###############
@@ -81,7 +81,7 @@ validate:
     - env
     - pwd
   script:
-    - echo "./vpc terraform validate"
+    - echo "a-service/vpc terraform validate"
     - terraform validate
   after_script:
     - ls ${TF_DIR}/.terraform
@@ -99,7 +99,7 @@ plan:
     - terraform version
   script :
    - |
-    echo "./vpc terraform plan"
+    echo "a-service/vpc terraform plan"
     terraform plan -refresh=false -out=planfile 
   after_script:
     - ls ${TF_DIR}/.terraform

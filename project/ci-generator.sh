@@ -1,11 +1,35 @@
 #!/bin/bash
-dir=$(find . -maxdepth 2 -type d)
+
+# dir=$(find . -type d)
+
+# check argument
+if [ $# -ne 1 ]
+then
+  echo "Please check folder path that you want to create ci file"
+  echo "Usage: $0 <path>"
+  exit 1
+fi
+
+ls | grep $1 >> /dev/null
+
+# check correct path
+if [ $? -eq 0 ]
+then
+  echo "Creating ci file below $1 folder"
+else
+  echo "Please check folder path that you want to create ci file"
+  exit 1
+fi
+
+# creating ci file in each folder
+dir=$(find $1 -type d)
 
 for folder in $dir
 do
 if [ -e "$(find $folder -name '*.tfvars')" ]
 then
 
+echo "Create gitlab-ci.yaml in $folder"
 cat << EOF > $folder/.gitlab-ci.yml
 .terraform-init: &terraform-init-module
   - cd \${TF_DIR}
@@ -29,7 +53,7 @@ cat << EOF > $folder/.gitlab-ci.yml
 
 # For Example
 
-before-script: &before-script
+.before-script: &before-script
   - echo "Execute this script first"
   - sleep 5
 

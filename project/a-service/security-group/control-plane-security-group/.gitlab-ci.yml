@@ -20,7 +20,7 @@
 
 # For Example
 
-before-script: &before-script
+.before-script: &before-script
   - echo "Execute this script first"
   - sleep 5
 
@@ -38,7 +38,7 @@ before-script: &before-script
 ###############
 
 variables:
-  TF_DIR : "./security-group/control-plane-security-group"
+  TF_DIR : "a-service/security-group/control-plane-security-group"
   TAGS   : "sdh-test-runner"
 
 ###############
@@ -81,7 +81,7 @@ validate:
     - env
     - pwd
   script:
-    - echo "./security-group/control-plane-security-group terraform validate"
+    - echo "a-service/security-group/control-plane-security-group terraform validate"
     - terraform validate
   after_script:
     - ls ${TF_DIR}/.terraform
@@ -99,7 +99,7 @@ plan:
     - terraform version
   script :
    - |
-    echo "./security-group/control-plane-security-group terraform plan"
+    echo "a-service/security-group/control-plane-security-group terraform plan"
     terraform plan -refresh=false -out=planfile 
   after_script:
     - ls ${TF_DIR}/.terraform
