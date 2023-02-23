@@ -1,5 +1,6 @@
 module route {
-    source = "../../../../module/terraform-aws-route"
+    # source = "../../../../module/terraform-aws-route"
+    source = "github.com/seodea/terraform-aws-module-scenario/module/terraform-aws-route"
 
     env = var.env
     project = var.project

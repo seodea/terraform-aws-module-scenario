@@ -1,0 +1,108 @@
+stages :
+  - triggers
+  
+vpc :
+  stage : triggers
+  # 'trigger' is the keyword to create a child pipeline
+  trigger :
+    include: project/b-service/vpc/.gitlab-ci.yml
+    strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+
+  allow_failure: false
+
+#################################
+### route-table
+#################################
+# alb-route-table :
+#   stage : triggers
+#   needs : 
+#     - vpc # vpc가 끝나지 않아도 동작 가능하게 하는 기능
+#   trigger :
+#     include: project/a-service/route-table/alb-route-table/.gitlab-ci.yml
+#     strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+
+# bastion-route-table :
+#   stage : triggers
+#   needs : 
+#     - vpc # vpc가 끝나지 않아도 동작 가능하게 하는 기능
+#   trigger :
+#     include: project/a-service/route-table/bastion-route-table/.gitlab-ci.yml
+#     strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+
+# eks-route-table :
+#   stage : triggers
+#   needs : 
+#     - vpc # vpc가 끝나지 않아도 동작 가능하게 하는 기능
+#   trigger :
+#     include: project/a-service/route-table/eks-route-table/.gitlab-ci.yml
+#     strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+
+# #################################
+# ### security-group
+# #################################
+
+# alb-security-group :
+#   stage : triggers
+#   needs : 
+#     - vpc # vpc가 끝나야 작업을 진행 strategy와 같이 사용
+#   trigger :
+#     include: project/a-service/security-group/alb-security-group/.gitlab-ci.yml
+#     strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+
+# bastion-security-group :
+#   stage : triggers
+#   needs : 
+#     - vpc # vpc가 끝나야 작업을 진행 strategy와 같이 사용
+#   trigger :
+#     include: project/a-service/security-group/bastion-security-group/.gitlab-ci.yml
+#     strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+
+# control-plane-security-group :
+#   stage : triggers
+#   needs : 
+#     - vpc # vpc가 끝나야 작업을 진행 strategy와 같이 사용
+#   trigger :
+#     include: project/a-service/security-group/control-plane-security-group/.gitlab-ci.yml
+#     strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+
+# data-plane-security-group :
+#   stage : triggers
+#   needs : 
+#     - vpc # vpc가 끝나야 작업을 진행 strategy와 같이 사용
+#   trigger :
+#     include: project/a-service/security-group/data-plane-security-group/.gitlab-ci.yml
+#     strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+
+# #################################
+# ### security-group-rule
+# #################################
+
+# alb-security-group-rule :
+#   stage : triggers
+#   needs : 
+#     - alb-security-group
+#   trigger :
+#     include: project/a-service/security-group-rule/alb-security-group-rule/.gitlab-ci.yml
+
+# bastion-security-group-rule :
+#   stage : triggers
+#   needs : 
+#     - bastion-security-group
+#   trigger :
+#     include: project/a-service/security-group-rule/bastion-security-group-rule/.gitlab-ci.yml
+
+# control-plane-security-group-rule :
+#   stage : triggers
+#   needs : 
+#     - control-plane-security-group
+#     - data-plane-security-group
+#   trigger :
+#     include: project/a-service/security-group-rule/control-plane-security-group-rule/.gitlab-ci.yml
+
+# data-plane-security-group-rule :
+#   stage : triggers
+#   needs : 
+#     - control-plane-security-group
+#     - data-plane-security-group
+#   trigger :
+#     include: project/a-service/security-group-rule/data-plane-security-group-rule/.gitlab-ci.yml

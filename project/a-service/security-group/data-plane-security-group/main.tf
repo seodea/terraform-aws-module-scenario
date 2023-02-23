@@ -1,5 +1,6 @@
 module security_group {
-    source = "../../../../module/terraform-aws-security-group"
+    # source = "../../../../module/terraform-aws-security-group"
+    source = "github.com/seodea/terraform-aws-module-scenario/module/terraform-aws-security-group"
 
     env = var.env
     project = var.project

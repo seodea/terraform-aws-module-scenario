@@ -1,3 +1,18 @@
+
+# 공통 이미지 및 scripte 내용
+default:
+  image: 
+    name: 'wotnek90/terraform-aws-cli:v1.3.7'
+    entrypoint:
+      - '/usr/bin/env'
+      - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+# 공통 anchor 설정 
+.aws-configure: &aws-configure-profile
+  - mkdir ~/.aws/
+  - printf "[default]\naws_access_key_id = %s\naws_secret_access_key = %s\n" "" "" > ~/.aws/credentials
+  - printf "[default]\nregion = %s\noutput = json\n" "" > ~/.aws/config
+
 .terraform-init: &terraform-init-module
   - cd ${TF_DIR}
   - terraform init -reconfigure -get=true -upgrade
@@ -38,7 +53,7 @@
 ###############
 
 variables:
-  TF_DIR : "a-service/security-group-rule/bastion-security-group-rule"
+  TF_DIR : "project/a-service/security-group-rule/bastion-security-group-rule"
   TAGS   : "sdh-test-runner"
 
 ###############
@@ -81,7 +96,7 @@ validate:
     - env
     - pwd
   script:
-    - echo "a-service/security-group-rule/bastion-security-group-rule terraform validate"
+    - echo "project/a-service/security-group-rule/bastion-security-group-rule terraform validate"
     - terraform validate
   after_script:
     - ls ${TF_DIR}/.terraform
@@ -89,7 +104,7 @@ validate:
   # tags:
   #   - ''
 
-plan:
+.plan:
   stage: plan
   <<: *common-feature
   <<: *global_cache
@@ -99,7 +114,7 @@ plan:
     - terraform version
   script :
    - |
-    echo "a-service/security-group-rule/bastion-security-group-rule terraform plan"
+    echo "project/a-service/security-group-rule/bastion-security-group-rule terraform plan"
     terraform plan -refresh=false -out=planfile 
   after_script:
     - ls ${TF_DIR}/.terraform
