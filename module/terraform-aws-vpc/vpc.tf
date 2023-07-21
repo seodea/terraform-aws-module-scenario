@@ -64,7 +64,7 @@ resource "aws_internet_gateway" "this" {
 ################################################################################
 
 resource "aws_eip" "this" {
-  vpc = true
+  domain = vpc
   for_each = { for i in local.natgw_subnet : i.cidr => i }
 
   tags = merge(
