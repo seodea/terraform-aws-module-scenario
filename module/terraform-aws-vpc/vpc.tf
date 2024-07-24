@@ -1,5 +1,5 @@
 ################################################################################
-# VPC (naming : {env}-{project}-{name}-vpc)
+# VPC (naming : {name}-{env}-{project}-vpc)
 ################################################################################
 
 resource "aws_vpc" "this" {
@@ -10,9 +10,9 @@ resource "aws_vpc" "this" {
     var.tags,
     { 
       "Name" = format("%s-%s-%s-vpc",
+        var.name,
         var.env,
-        var.project,
-        var.name
+        var.project
       )
     }
   )
