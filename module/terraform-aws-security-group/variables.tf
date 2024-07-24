@@ -1,4 +1,4 @@
-variable "env" { 
+variable "method" { 
     type = string
 }
 variable "project" { 
