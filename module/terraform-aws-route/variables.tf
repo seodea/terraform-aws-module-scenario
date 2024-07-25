@@ -17,10 +17,10 @@ variable "igw_id" {
     type = string
     default = null
 }
-variable "nat_id" { 
-    type = string
-    default = null
-}
+#variable "nat_id" { 
+#    type = string
+#   default = null
+#}
 variable "route_rule" { 
     type = map(any)
 }
