@@ -3,7 +3,7 @@
 ################################################################################
 
 resource "aws_security_group" "this" {
-  name                   = format("%s-%s-sg", var.name, var.method )
+  name                   = format("%s-%s-sg", var.company, var.method )
   vpc_id                 = var.vpc_id
   
   lifecycle {
@@ -14,7 +14,7 @@ resource "aws_security_group" "this" {
     var.tags,
     { 
       "Name" = format("%s-%s-sg",
-        var.name,
+        var.company,
         var.method
       )
     }

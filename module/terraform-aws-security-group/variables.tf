@@ -1,7 +1,7 @@
 variable "method" { 
     type = string
 }
-variable "name" { 
+variable "company" { 
     type = string
 }
 variable "vpc_id" { 

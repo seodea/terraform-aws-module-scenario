@@ -1,11 +1,11 @@
 
+variable "company" { 
+    type = string
+}
 variable "env" { 
     type = string
 }
 variable "project" { 
-    type = string
-}
-variable "name" { 
     type = string
 }
 variable "vpc_cidr" { 

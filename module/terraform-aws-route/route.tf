@@ -1,5 +1,5 @@
 ################################################################################
-# route
+# route : {company}-{env}-{method}-rt
 ################################################################################
 
 resource "aws_route_table" "this" {
@@ -7,7 +7,7 @@ resource "aws_route_table" "this" {
   vpc_id = var.vpc_id
 
   tags = merge(
-    { "Name" = format("%s-%s-%s-rt", var.name, var.env, var.project) },
+    { "Name" = format("%s-%s-%s-rt", var.company, var.env, var.method) },
     var.tags
   )
 }

@@ -1,5 +1,6 @@
 ################################################################################
-# VPC (naming : {name}-{env}-{project}-vpc)
+# VPC (naming : {company}-{env}-{project}-vpc)
+# example : mzc-dev-eks-vpc
 ################################################################################
 
 resource "aws_vpc" "this" {
@@ -10,7 +11,7 @@ resource "aws_vpc" "this" {
     var.tags,
     { 
       "Name" = format("%s-%s-%s-vpc",
-        var.name,
+        var.company,
         var.env,
         var.project
       )
@@ -19,7 +20,7 @@ resource "aws_vpc" "this" {
 }
 
 ################################################################################
-# subnet (naming : {name}-{subnet용도}-{zone}-subnet)
+# subnet (naming : {company}-{subnet용도}-{zone}-subnet)
 ################################################################################
 
 resource "aws_subnet" "this" {
@@ -33,7 +34,7 @@ resource "aws_subnet" "this" {
     var.tags,
     {
       "Name" = format("%s-%s-%s-subnet", 
-        var.name, 
+        var.company, 
         each.value.name,
         split("-", var.azs[index(var.subnet[each.value.name].cidr, each.key)])[2]
       )
@@ -53,7 +54,7 @@ resource "aws_internet_gateway" "this" {
     var.tags,
     { 
       "Name" = format("%s-igw", 
-        var.name
+        var.company
       )
     }
   )
@@ -70,7 +71,7 @@ resource "aws_eip" "this" {
   tags = merge(
     {
       "Name" = format("%s-%s-nat-eip", 
-        var.name, 
+        var.company, 
         split("-", var.azs[index(var.subnet[each.value.name].cidr, each.key)])[2]
       )      
     },
@@ -87,7 +88,7 @@ resource "aws_nat_gateway" "this" {
   tags = merge(
     {
       "Name" = format("%s-%s-nat",
-        var.name, 
+        var.company, 
         split("-", var.azs[index(var.subnet[each.value.name].cidr, each.key)])[2]
       )
     },
