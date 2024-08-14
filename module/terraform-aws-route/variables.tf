@@ -13,14 +13,14 @@ variable "vpc_id" {
 variable "subnet_id" { 
     type = list(string)
 }
-#variable "igw_id" { 
-#    type = string
-#    default = null
-#}
-#variable "nat_id" { 
-#    type = string
-#   default = null
-#}
+variable "igw_id" { 
+    type = string
+    default = null
+}
+variable "nat_id" { 
+    type = string
+   default = null
+}
 variable "route_rule" { 
     type = map(any)
 }
