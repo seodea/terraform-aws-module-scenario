@@ -5,7 +5,7 @@ variable "company" {
 variable "env" { 
     type = string
 }
-variable "mtehod" { 
+variable "method" { 
     type = string
 }
 variable "vpc_cidr" { 
