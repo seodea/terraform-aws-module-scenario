@@ -13,7 +13,7 @@ resource "aws_vpc" "this" {
       "Name" = format("%s-%s-%s-vpc",
         var.company,
         var.env,
-        var.mtehod
+        var.method
       )
     }
   )
