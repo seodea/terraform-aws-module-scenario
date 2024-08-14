@@ -1,5 +1,5 @@
 ################################################################################
-# VPC (naming : {company}-{env}-{project}-vpc)
+# VPC (naming : {company}-{env}-{mtehod}-vpc)
 # example : mzc-dev-eks-vpc
 ################################################################################
 
@@ -13,7 +13,7 @@ resource "aws_vpc" "this" {
       "Name" = format("%s-%s-%s-vpc",
         var.company,
         var.env,
-        var.project
+        var.mtehod
       )
     }
   )
