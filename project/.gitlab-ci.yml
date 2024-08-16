@@ -1,108 +1,103 @@
 stages :
   - triggers
-  
+
 vpc :
   stage : triggers
   # 'trigger' is the keyword to create a child pipeline
   trigger :
-    include: project/b-service/vpc/.gitlab-ci.yml
-    strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+    include: main/vpc/.gitlab-ci.yml
+    strategy: depend
 
   allow_failure: false
 
 #################################
 ### route-table
 #################################
-# alb-route-table :
-#   stage : triggers
-#   needs : 
-#     - vpc # vpc가 끝나지 않아도 동작 가능하게 하는 기능
-#   trigger :
-#     include: project/a-service/route-table/alb-route-table/.gitlab-ci.yml
-#     strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
 
-# bastion-route-table :
-#   stage : triggers
-#   needs : 
-#     - vpc # vpc가 끝나지 않아도 동작 가능하게 하는 기능
-#   trigger :
-#     include: project/a-service/route-table/bastion-route-table/.gitlab-ci.yml
-#     strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+bastion-route-table :
+  stage : triggers
+  # needs : 
+    # - vpc 
+  trigger :
+    include: main/route-table/bastion-route-table/.gitlab-ci.yml
+    strategy: depend # 사용할 경우 CI/CD 설정이 Running으로 표시, 주석처리 할 경우 시작과 동시에 완료 상관 없이 Finish로 변경
 
-# eks-route-table :
-#   stage : triggers
-#   needs : 
-#     - vpc # vpc가 끝나지 않아도 동작 가능하게 하는 기능
-#   trigger :
-#     include: project/a-service/route-table/eks-route-table/.gitlab-ci.yml
-#     strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+mgmt-route-table :
+  stage : triggers
+  # needs : 
+    # - vpc 
+  trigger :
+    include: main/route-table/mgmt-route-table/.gitlab-ci.yml
+    strategy: depend # 사용할 경우 CI/CD 설정이 Running으로 표시, 주석처리 할 경우 시작과 동시에 완료 상관 없이 Finish로 변경
 
-# #################################
-# ### security-group
-# #################################
+eks-route-table :
+  stage : triggers
+  # needs : 
+    # - vpc 
+  trigger :
+    include: main/route-table/eks-route-table/.gitlab-ci.yml
+    strategy: depend # 사용할 경우 CI/CD 설정이 Running으로 표시, 주석처리 할 경우 시작과 동시에 완료 상관 없이 Finish로 변경
 
-# alb-security-group :
-#   stage : triggers
-#   needs : 
-#     - vpc # vpc가 끝나야 작업을 진행 strategy와 같이 사용
-#   trigger :
-#     include: project/a-service/security-group/alb-security-group/.gitlab-ci.yml
-#     strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+db-route-table :
+  stage : triggers
+  # needs : 
+    # - vpc 
+  trigger :
+    include: main/route-table/db-route-table/.gitlab-ci.yml
+    strategy: depend # 사용할 경우 CI/CD 설정이 Running으로 표시, 주석처리 할 경우 시작과 동시에 완료 상관 없이 Finish로 변경
 
-# bastion-security-group :
-#   stage : triggers
-#   needs : 
-#     - vpc # vpc가 끝나야 작업을 진행 strategy와 같이 사용
-#   trigger :
-#     include: project/a-service/security-group/bastion-security-group/.gitlab-ci.yml
-#     strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+#################################
+### security-group
+#################################
 
-# control-plane-security-group :
-#   stage : triggers
-#   needs : 
-#     - vpc # vpc가 끝나야 작업을 진행 strategy와 같이 사용
-#   trigger :
-#     include: project/a-service/security-group/control-plane-security-group/.gitlab-ci.yml
-#     strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+bastion-security-group :
+  stage : triggers
+  # needs : 
+    # - vpc # vpc가 끝나야 작업을 진행 strategy와 같이 사용
+  trigger :
+    include: main/security-group/bastion-security-group/.gitlab-ci.yml
+    strategy: depend
 
-# data-plane-security-group :
-#   stage : triggers
-#   needs : 
-#     - vpc # vpc가 끝나야 작업을 진행 strategy와 같이 사용
-#   trigger :
-#     include: project/a-service/security-group/data-plane-security-group/.gitlab-ci.yml
-#     strategy: depend # strategy의 depend 사용 시, 해당 task가 정상적으로 종료 시 완료 표시로 바꿈
+mgmt-security-group :
+  stage : triggers
+  needs : 
+    - bastion-security-group 
+  trigger :
+    include: main/security-group/mgmt-security-group/.gitlab-ci.yml
+    strategy: depend
 
-# #################################
-# ### security-group-rule
-# #################################
+eks-security-group :
+  stage : triggers
+  needs : 
+    - bastion-security-group 
+  trigger :
+    include: main/security-group/eks-security-group/.gitlab-ci.yml
+    strategy: depend
 
-# alb-security-group-rule :
-#   stage : triggers
-#   needs : 
-#     - alb-security-group
-#   trigger :
-#     include: project/a-service/security-group-rule/alb-security-group-rule/.gitlab-ci.yml
+#################################
+### security-group-rule
+#################################
 
-# bastion-security-group-rule :
-#   stage : triggers
-#   needs : 
-#     - bastion-security-group
-#   trigger :
-#     include: project/a-service/security-group-rule/bastion-security-group-rule/.gitlab-ci.yml
+bastion-security-group-rule :
+  stage : triggers
+  needs : 
+    - bastion-security-group 
+  trigger :
+    include: main/security-group-rule/bastion-security-group-rule/.gitlab-ci.yml
+    strategy: depend
 
-# control-plane-security-group-rule :
-#   stage : triggers
-#   needs : 
-#     - control-plane-security-group
-#     - data-plane-security-group
-#   trigger :
-#     include: project/a-service/security-group-rule/control-plane-security-group-rule/.gitlab-ci.yml
+mgmt-security-group-rule :
+  stage : triggers
+  needs : 
+    - mgmt-security-group 
+  trigger :
+    include: main/security-group-rule/mgmt-security-group-rule/.gitlab-ci.yml
+    strategy: depend
 
-# data-plane-security-group-rule :
-#   stage : triggers
-#   needs : 
-#     - control-plane-security-group
-#     - data-plane-security-group
-#   trigger :
-#     include: project/a-service/security-group-rule/data-plane-security-group-rule/.gitlab-ci.yml
+eks-security-group-rule :
+  stage : triggers
+  needs : 
+    - eks-security-group
+  trigger :
+    include: main/security-group-rule/eks-security-group-rule/.gitlab-ci.yml
+    strategy: depend
