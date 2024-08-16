@@ -52,14 +52,14 @@ locals {
 
 locals {
   sg_rule = flatten([
-    for k,v in var.sg_rule : {
+    for k,v in local.sg_rule : {
       name = k
       type = v.type
       protocol = v.protocol
       to_port = v.to_port
       from_port = v.from_port
       prefix_list_ids = v.prefix_list_ids
-      source_security_group_id = v.source_security_group_id
+      source_security_group_id = join("", v.source_security_group_id)
       description = v.description
     }
     if v.source_security_group_id != ""
