@@ -52,7 +52,7 @@ locals {
 
 locals {
   sg_rule = flatten([
-    for k,v in local.sg_rule : {
+    for k,v in var.sg_rule : {
       name = k
       type = v.type
       protocol = v.protocol
