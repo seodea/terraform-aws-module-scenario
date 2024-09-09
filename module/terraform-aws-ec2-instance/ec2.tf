@@ -4,19 +4,19 @@
 
 resource "aws_instance" "this" {
 
-  ami                  = var.ami
-  instance_type        = var.instance_type
+  ami                         = var.ami
+  instance_type               = var.instance_type
 
-  user_data              = var.user_data
+  user_data                   = var.user_data
 
-  availability_zone      = var.azs #  
-  subnet_id              = join("",var.subnet) # string : var.subnet 
-  vpc_security_group_ids = data.aws_security_groups.this.ids # list 형식
+  availability_zone           = var.azs #  
+  subnet_id                   = join("",var.subnet) # string : var.subnet 
+  vpc_security_group_ids      = var.security_group # list 형식
 
-  key_name             = var.key_name # string
-  monitoring           = var.monitoring # 설정을 안할 경우 null
+  key_name                    = var.key_name # string
+  monitoring                  = var.monitoring # 설정을 안할 경우 null
   
-  iam_instance_profile = var.instance_profile
+  iam_instance_profile        = var.instance_profile
 
   associate_public_ip_address = var.associate_public_ip_address # dafault 값은 IP 할당 X
   private_ip                  = var.private_ip # 설정을 안할 경우 null
@@ -37,7 +37,7 @@ resource "aws_instance" "this" {
     }
   }
 
-  tags        = merge(
+  tags = merge(
     var.tags, 
     { "Name" = format("%s-%s-%s-ec2",
         var.company,
