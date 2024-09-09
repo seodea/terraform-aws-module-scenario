@@ -44,7 +44,7 @@ variable "associate_public_ip_address" {
 }
 
 variable "root_block_device" { 
-    type = map(string)
+    type = list(string)
     default = []
 }
 
