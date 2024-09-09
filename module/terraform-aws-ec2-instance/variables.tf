@@ -13,18 +13,20 @@ variable "azs" {
 variable "ami" { 
     type = string
 }
-variable "vpc_filter_name" { 
-    type = map(string)
+variable "subnet" { 
+    type = list
 }
-variable "subnet_filter_name" { 
-    type = map(string)
+variable "security_group" { 
+    type = list
 }
 variable "instance_type" {
-    description = "The type of instance to start"
-    type        = string
-    default     = "t3.micro"
+    type = string
 }
 variable "key_name" { 
+    type = string
+    default = null
+}
+variable "instance_profile" { 
     type = string
     default = null
 }
