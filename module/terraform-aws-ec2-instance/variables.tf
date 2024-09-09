@@ -43,6 +43,11 @@ variable "associate_public_ip_address" {
     default = false
 }
 
+variable "root_block_device" { 
+    type = map(string)
+    default = []
+}
+
 ################################################################################
 # IAM Role / Instance Profile
 ################################################################################
