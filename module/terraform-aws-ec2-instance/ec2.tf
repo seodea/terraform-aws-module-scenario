@@ -10,20 +10,20 @@ resource "aws_instance" "this" {
   user_data              = var.user_data
 
   availability_zone      = var.azs #  
-  subnet_id              = join("",data.aws_subnets.this.ids) # string : var.subnet 
+  subnet_id              = join("",var.subnet) # string : var.subnet 
   vpc_security_group_ids = data.aws_security_groups.this.ids # list 형식
 
   key_name             = var.key_name # string
   monitoring           = var.monitoring # 설정을 안할 경우 null
   
-  iam_instance_profile = var.create_iam_instance_profile ? 1 : var.iam_instance_profile # 설정을 안할 경우 null
+  iam_instance_profile = var.instance_profile
 
   associate_public_ip_address = var.associate_public_ip_address # dafault 값은 IP 할당 X
   private_ip                  = var.private_ip # 설정을 안할 경우 null
 
   # root disk만 여기서 진행, 추가 Disk는 disk attachment로 진행
   dynamic "root_block_device" {
-    for_each = local.root_block_device
+    for_each = var.root_block_device
 
     content {
       delete_on_termination = try(root_block_device.value.delete_on_termination, null)
