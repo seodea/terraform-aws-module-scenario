@@ -14,7 +14,7 @@ resource "aws_route_table" "this" {
 
 resource "aws_route" "this" {
   # for_each = { for route in var.route_rule : route.cidr_block => route } #change var.route_rule -> local.route_rule
-  for_each = { for route in local.route_rule : route.name => route } #change var.route_rule -> local.route_rule
+  for_each = { for route in local.route_table : route.name => route } #change var.route_rule -> local.route_rule
 
   route_table_id         = aws_route_table.this.id
   # destination_cidr_block     = can(regex("^[0-255]", each.key)) == true ? each.key : null
