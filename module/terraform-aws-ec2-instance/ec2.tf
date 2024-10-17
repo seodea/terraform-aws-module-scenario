@@ -57,6 +57,17 @@ resource "aws_ebs_volume" "this" {
   for_each = { for k,v in var.data_block_device : k=>v }
   availability_zone = var.azs
   size              = each.value.size
+
+  tags = merge(
+    var.tags, 
+    { "Name" = format("%s-%s-%s-ebs-%s",
+        var.company,
+        var.env,
+        var.method,
+        var.each.key
+      )
+    }
+  )
 }
 
 resource "aws_volume_attachment" "this" {
