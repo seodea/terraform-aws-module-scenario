@@ -48,3 +48,20 @@ resource "aws_instance" "this" {
   )
   # volume_tags = var.enable_volume_tags ? merge({ "Name" = var.name }, var.volume_tags) : null
 }
+
+############################
+# EBS instance
+############################
+
+resource "aws_ebs_volume" "this" {
+  for_each = { for k,v in var.data_block_device : k=>v }
+  availability_zone = var.azs
+  size              = each.value.size
+}
+
+resource "aws_volume_attachment" "this" {
+  for_each = { for k,v in var.data_block_device : k=>v }
+  device_name = each.value.device_name
+  volume_id   = aws_ebs_volume.this[each.key].id
+  instance_id = aws_instance.this.id
+}
