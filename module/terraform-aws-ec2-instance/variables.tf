@@ -47,6 +47,10 @@ variable "root_block_device" {
     type = list(string)
     default = []
 }
+variable "data_block_device" { 
+    type = map(string)
+    default = {}
+}
 
 
 ################################################################################
@@ -76,6 +80,11 @@ variable "monitoring" {
     type        = bool
     default     = null
 }
+
+################################################################################
+# Tag
+################################################################################
+
 variable "tags" { 
     type = map(string)
 }
