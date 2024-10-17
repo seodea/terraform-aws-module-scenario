@@ -20,8 +20,8 @@ resource "aws_route" "this" {
   # destination_cidr_block     = can(regex("^[0-255]", each.key)) == true ? each.key : null
   # destination_prefix_list_id = can(regex("^pl-", each.key)) == true ? each.key : null
   
-  destination_cidr_block     = can(regex("^[0-255]", each.value.cidr_block)) == true ? each.key : null
-  destination_prefix_list_id = can(regex("^pl-", each.value.cidr_block)) == true ? each.key : null
+  destination_cidr_block     = can(regex("^[0-255]", each.value.cidr_block)) == true ? each.value.cidr_block : null
+  destination_prefix_list_id = can(regex("^pl-", each.value.cidr_block)) == true ? each.value.cidr_block : null
 
   gateway_id                 = startswith(each.value.target, "igw-") == true ? each.value.target : null
   nat_gateway_id             = startswith(each.value.target, "nat-") == true ? each.value.target : null
