@@ -57,8 +57,8 @@ resource "aws_ebs_volume" "this" {
   for_each = { for k,v in var.data_block_device : k=>v }
   availability_zone = var.azs
   size              = each.value.size
-  type              = lookup(each.value,"type", null) != null ? each.value.type : null
-
+  # type              = lookup(each.value,"type", null) != null ? each.value.type : null
+  type              = can(each.value["type"]) ? each.value.type : null
   tags = merge(
     var.tags, 
     { "Name" = format("%s-%s-%s-ebs-%s",
