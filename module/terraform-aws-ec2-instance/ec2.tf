@@ -65,7 +65,7 @@ resource "aws_ebs_volume" "this" {
         var.company,
         var.env,
         var.method,
-        each.key
+        each.key 
       )
     }
   )
