@@ -48,7 +48,7 @@ variable "root_block_device" {
     default = []
 }
 variable "data_block_device" { 
-    type = map(string)
+    type = map(any)
     default = {}
 }
 
