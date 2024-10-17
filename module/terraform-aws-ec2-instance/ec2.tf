@@ -58,6 +58,7 @@ resource "aws_ebs_volume" "this" {
   availability_zone = var.azs
   size              = each.value.size
   type              = each.value.type ? each.value.type : null
+  type              = lookup(each.value,"type", null) != null ? each.value.type : null
 
   tags = merge(
     var.tags, 
