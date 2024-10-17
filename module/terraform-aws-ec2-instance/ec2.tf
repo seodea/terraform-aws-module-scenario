@@ -57,7 +57,6 @@ resource "aws_ebs_volume" "this" {
   for_each = { for k,v in var.data_block_device : k=>v }
   availability_zone = var.azs
   size              = each.value.size
-  type              = each.value.type ? each.value.type : null
   type              = lookup(each.value,"type", null) != null ? each.value.type : null
 
   tags = merge(
