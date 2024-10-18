@@ -76,5 +76,5 @@ resource "aws_volume_attachment" "this" {
   device_name = each.value.device_name
   volume_id   = aws_ebs_volume.this[each.key].id
   instance_id = aws_instance.this.id
-  skip_destroy = each.value.skip_destroy
+  force_detach = can(each.value["force_detach"]) ? each.value.force_detach : null
 }
