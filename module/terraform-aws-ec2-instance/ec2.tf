@@ -57,8 +57,12 @@ resource "aws_ebs_volume" "this" {
   for_each = { for k,v in var.data_block_device : k=>v }
   availability_zone = var.azs
   size              = each.value.size
-  # type              = lookup(each.value,"type", null) != null ? each.value.type : null
   type              = can(each.value["type"]) ? each.value.type : null
+  
+  lifecycle {
+    prevent_destroy = can(each.value["prevent_destroy"]) ? each.value.prevent_destroy : false  # Prevent the EBS volume from being destroyed
+  }
+  
   tags = merge(
     var.tags, 
     { "Name" = format("%s-%s-%s-ebs-%s",
