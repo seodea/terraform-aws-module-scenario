@@ -61,7 +61,7 @@ resource "aws_ebs_volume" "this" {
   
   # EC2 삭제 시 EBS 유지 여부를 위한 lifecycle
   lifecycle {
-    prevent_destroy = can(each.value["prevent_destroy"]) ? each.value.prevent_destroy : false  
+    prevent_destroy = each.value.prevent_destroy
   }
   
   tags = merge(
