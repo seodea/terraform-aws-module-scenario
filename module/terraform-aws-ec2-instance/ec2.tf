@@ -59,8 +59,8 @@ resource "aws_ebs_volume" "this" {
   size              = each.value.size
   type              = can(each.value["type"]) ? each.value.type : null
   
-  force_detach = can(each.value.["force_detach"]) ? each.value.force_detach : null
-  skip_destroy = can(each.value.["skip_destroy"]) ? each.value.skip_destroy : null
+  force_detach = can(each.value["force_detach"]) ? each.value.force_detach : null
+  skip_destroy = can(each.value["skip_destroy"]) ? each.value.skip_destroy : null
   
   tags = merge(
     var.tags, 
