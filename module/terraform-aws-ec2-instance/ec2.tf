@@ -7,7 +7,7 @@ resource "aws_instance" "this" {
   ami                         = var.ami
   instance_type               = var.instance_type
 
-  user_data                   = file("${path.module}/${var.user_data}")
+  user_data                   = var.user_data == null ? null : file("${path.module}/${var.user_data}")
 
   availability_zone           = var.azs #  
   subnet_id                   = join("",var.subnet) # string : var.subnet 
