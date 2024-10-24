@@ -46,7 +46,6 @@ resource "aws_instance" "this" {
       )
     }
   )
-  # volume_tags = var.enable_volume_tags ? merge({ "Name" = var.name }, var.volume_tags) : null
 }
 
 ############################
