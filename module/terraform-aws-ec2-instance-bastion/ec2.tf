@@ -18,6 +18,7 @@ resource "aws_instance" "this" {
   
   iam_instance_profile        = var.instance_profile
 
+  associate_public_ip_address = var.associate_public_ip_address # dafault 값은 IP 할당 O
   private_ip                  = var.private_ip # 설정을 안할 경우 null
 
   # root disk만 여기서 진행, 추가 Disk는 disk attachment로 진행
