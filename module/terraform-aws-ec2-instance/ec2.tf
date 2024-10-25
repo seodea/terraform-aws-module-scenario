@@ -3,7 +3,7 @@
 ############################
 
 resource "aws_instance" "this" {
-  for_each = { for k,v in var.servers }
+  for_each = { for k,v in var.servers : name=v }
   ami                         = var.ami
   instance_type               = var.instance_type
 
