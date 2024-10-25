@@ -38,12 +38,15 @@ variable "private_ip" {
     type = string
     default = null
 }
-
 variable "root_block_device" { 
     type = list(string)
     default = []
 }
 variable "data_block_device" { 
+    type = map(any)
+    default = {}
+}
+variable "servers" { 
     type = map(any)
     default = {}
 }
