@@ -3,7 +3,8 @@
 ############################
 
 resource "aws_instance" "this" {
-  for_each = { for k,v in var.servers : name=v }
+  for_each =  { for k,v in var.servers : k => { for kk,vv in v : kk=>vv }}
+  
   ami                         = var.ami
   instance_type               = var.instance_type
 
@@ -38,7 +39,7 @@ resource "aws_instance" "this" {
 
   tags = merge(
     var.tags, 
-    { "Name" = each_key }
+    { "Name" = each.key }
     # { "Name" = format("%s-%s-%s-ec2",
         # var.company,
         # var.env,
@@ -53,11 +54,11 @@ resource "aws_instance" "this" {
 ############################
 
 resource "aws_ebs_volume" "this" {
-  for_each = { [ for k,v in local.disk : { for kk,vv in v : kk=>vv }] }
+  for_each = { for disk in local.disk : disk.name=>disk }
   availability_zone = var.azs
   size              = each.value.size
-  type              = can(each.value["type"])
-  # type              = can(each.value["type"]) ? each.value.type : null
+  # type              = each.value["type"]
+  type              = can(each.value["type"]) ? each.value.type : null
   
   tags = merge(
     var.tags, 
@@ -67,8 +68,9 @@ resource "aws_ebs_volume" "this" {
 }
 
 resource "aws_volume_attachment" "this" {
-  for_each = { [ for k,v in local.disk : { for kk,vv in v : kk=>vv }] }
+  for_each = { for disk in local.disk : disk.name=>disk }
   device_name = each.value.device_name
   volume_id   = aws_ebs_volume.this[each.key].id
-  instance_id = aws_instance.this[join("-", slice(split("-", kk), 0, length(split("-", kk)) - 1))].id
+  # instance_id = aws_instance.this[join("-", slice(split("-", each.key), 0, length(split("-", each.key)) - 1))].id
+  instance_id = aws_instance.this[each.value.ec2].id
 }

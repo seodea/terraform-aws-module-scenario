@@ -47,7 +47,7 @@ variable "root_block_device" {
 #     default = {}
 # }
 variable "servers" { 
-    type = list(any)
+    type = map(any)
 }
 
 
