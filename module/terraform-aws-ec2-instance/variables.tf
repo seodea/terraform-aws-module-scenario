@@ -42,10 +42,6 @@ variable "root_block_device" {
     type = list(string)
     default = []
 }
-# variable "data_block_device" { 
-#     type = map(any)
-#     default = {}
-# }
 variable "servers" { 
     type = map(any)
 }
