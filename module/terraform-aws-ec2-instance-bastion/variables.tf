@@ -42,7 +42,6 @@ variable "associate_public_ip_address" {
     type = bool
     default = true
 }
-
 variable "root_block_device" { 
     type = list(string)
     default = []

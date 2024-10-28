@@ -7,7 +7,7 @@ resource "aws_instance" "this" {
   ami                         = var.ami
   instance_type               = var.instance_type
 
-  user_data                   = var.user_data == null ? null : file("${var.user_data}")
+  user_data                   = var.user_data == "" ? null : file("${var.user_data}")
 
   availability_zone           = var.azs #  
   subnet_id                   = join("",var.subnet) # string : var.subnet 
@@ -75,6 +75,4 @@ resource "aws_volume_attachment" "this" {
   device_name = each.value.device_name
   volume_id   = aws_ebs_volume.this[each.key].id
   instance_id = aws_instance.this.id
-  force_detach = can(each.value.force_detach) ? each.value.force_detach : null
-  skip_destroy = can(each.value.skip_destroy) ? each.value.skip_destroy : null
 }
