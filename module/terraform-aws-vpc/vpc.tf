@@ -53,8 +53,10 @@ resource "aws_internet_gateway" "this" {
   tags = merge(
     var.tags,
     { 
-      "Name" = format("%s-igw", 
-        var.company
+      "Name" = format("%s-%s-%s-igw", 
+        var.company,
+        var.env,
+        var.method
       )
     }
   )
@@ -87,8 +89,10 @@ resource "aws_nat_gateway" "this" {
 
   tags = merge(
     {
-      "Name" = format("%s-%s-nat",
-        var.company, 
+      "Name" = format("%s-%s-%s-%s-nat",
+        var.company,
+        var.env,
+        var.method,
         split("-", var.azs[index(var.subnet[each.value.name].cidr, each.key)])[2]
       )
     },
