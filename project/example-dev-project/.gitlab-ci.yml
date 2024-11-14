@@ -1,0 +1,224 @@
+stages :
+  - triggers
+
+bp-vpc :
+  stage : triggers
+  # 'trigger' is the keyword to create a child pipeline
+  trigger :
+    include: main_bp/vpc/.gitlab-ci.yml
+    strategy: depend
+
+  allow_failure: false
+
+vr-vpc :
+  stage : triggers
+  # 'trigger' is the keyword to create a child pipeline
+  trigger :
+    include: main_vr/vpc/.gitlab-ci.yml
+    strategy: depend
+
+  allow_failure: false
+
+
+#################################
+### 2. route-table
+#################################
+
+  #################################
+  ### 2.1 BP route-table
+  #################################
+
+public-route-table :
+  stage : triggers
+  needs : 
+    - bp-vpc 
+  trigger :
+    include: main_bp/route-table/public-route-table/.gitlab-ci.yml
+    strategy: depend # 사용할 경우 CI/CD 설정이 Running으로 표시, 주석처리 할 경우 시작과 동시에 완료 상관 없이 Finish로 변경
+
+nat-route-table :
+  stage : triggers
+  needs : 
+    - bp-vpc 
+  trigger :
+    include: main_bp/route-table/nat-route-table/.gitlab-ci.yml
+    strategy: depend # 사용할 경우 CI/CD 설정이 Running으로 표시, 주석처리 할 경우 시작과 동시에 완료 상관 없이 Finish로 변경
+
+firewall-route-table :
+  stage : triggers
+  needs : 
+    - bp-vpc 
+  trigger :
+    include: main_bp/route-table/firewall-route-table/.gitlab-ci.yml
+    strategy: depend # 사용할 경우 CI/CD 설정이 Running으로 표시, 주석처리 할 경우 시작과 동시에 완료 상관 없이 Finish로 변경
+
+elb-route-table :
+  stage : triggers
+  needs : 
+    - bp-vpc 
+  trigger :
+    include: main_bp/route-table/elb-route-table/.gitlab-ci.yml
+    strategy: depend # 사용할 경우 CI/CD 설정이 Running으로 표시, 주석처리 할 경우 시작과 동시에 완료 상관 없이 Finish로 변경
+
+bp-route-table :
+  stage : triggers
+  needs : 
+    - bp-vpc 
+  trigger :
+    include: main_bp/route-table/bp-route-table/.gitlab-ci.yml
+    strategy: depend # 사용할 경우 CI/CD 설정이 Running으로 표시, 주석처리 할 경우 시작과 동시에 완료 상관 없이 Finish로 변경
+
+tgw-attach-route-table :
+  stage : triggers
+  needs : 
+    - bp-vpc 
+  trigger :
+    include: main_bp/route-table/tgw-attach-route-table/.gitlab-ci.yml
+    strategy: depend # 사용할 경우 CI/CD 설정이 Running으로 표시, 주석처리 할 경우 시작과 동시에 완료 상관 없이 Finish로 변경
+
+
+  #################################
+  ### 2.2 VR route-table
+  #################################
+
+vr-mgmt-route-table :
+  stage : triggers
+  needs : 
+    - vr-vpc 
+  trigger :
+    include: main_vr/route-table/mgmt-route-table/.gitlab-ci.yml
+    strategy: depend # 사용할 경우 CI/CD 설정이 Running으로 표시, 주석처리 할 경우 시작과 동시에 완료 상관 없이 Finish로 변경
+
+vr-service-route-table :
+  stage : triggers
+  needs : 
+    - vr-vpc 
+  trigger :
+    include: main_vr/route-table/service-route-table/.gitlab-ci.yml
+    strategy: depend # vpc가 끝나지 않아도 동작 가능하게 하는 기능
+
+vr-tgw-attach-route-table :
+  stage : triggers
+  needs : 
+    - vr-vpc 
+  trigger :
+    include: main_vr/route-table/tgw-attach-route-table/.gitlab-ci.yml
+    strategy: depend # vpc가 끝나지 않아도 동작 가능하게 하는 기능
+
+
+#################################
+### 3. security-group
+#################################
+
+  #################################
+  ### 3.1 bp security-group
+  #################################
+
+bp-security-group :
+  stage : triggers
+  needs : 
+    - bp-vpc # bp-vpc가 끝나야 작업을 진행 strategy와 같이 사용
+  trigger :
+    include: main_bp/security-group/bp-security-group/.gitlab-ci.yml
+    strategy: depend
+
+firewall-security-group :
+  stage : triggers
+  needs : 
+    - bp-vpc  # bp-vpc가 끝나야 작업을 진행 strategy와 같이 사용
+  trigger :
+    include: main_bp/security-group/firewall-security-group/.gitlab-ci.yml
+    strategy: depend
+
+  #################################
+  ### 3.2 vr security-group
+  #################################
+
+vr-security-group :
+  stage : triggers
+  needs : 
+    - vr-vpc # vpc가 끝나야 작업을 진행 strategy와 같이 사용
+  trigger :
+    include: main_vr/security-group/vr-security-group/.gitlab-ci.yml
+    strategy: depend
+
+
+#################################
+### 4. security-group-rule
+#################################
+
+  #################################
+  ### 4.1 bp security-group-rule
+  #################################
+
+bp-security-group-rule :
+  stage : triggers
+  needs : 
+    - bp-security-group # security-group가 끝나야 작업을 진행 strategy와 같이 사용
+  trigger :
+    include: main_bp/security-group-rule/bp-security-group-rule/.gitlab-ci.yml
+    strategy: depend
+
+firewall-security-group-rule :
+  stage : triggers
+  needs : 
+    - firewall-security-group # security-group가 끝나야 작업을 진행 strategy와 같이 사용
+  trigger :
+    include: main_bp/security-group-rule/firewall-security-group-rule/.gitlab-ci.yml
+    strategy: depend
+
+  #################################
+  ### 4.2 vr security-group-rule 
+  #################################
+
+vr-security-group-rule :
+  stage : triggers
+  needs : 
+    - vr-security-group # security-group가 끝나야 작업을 진행 strategy와 같이 사용
+  trigger :
+    include: main_vr/security-group-rule/vr-security-group-rule/.gitlab-ci.yml
+    strategy: depend
+
+#################################
+### EC2
+#################################
+
+bp-ec2-instance :
+  stage : triggers
+  needs : 
+    - bp-security-group # security-group가 끝나야 작업을 진행 strategy와 같이 사용
+  trigger :
+    include: main_bp/ec2/bp-2a/.gitlab-ci.yml
+    strategy: depend
+
+firewall-2a-ec2-instance :
+  stage : triggers
+  needs : 
+    - firewall-security-group # security-group가 끝나야 작업을 진행 strategy와 같이 사용
+  trigger :
+    include: main_bp/ec2/firewall-2a/.gitlab-ci.yml
+    strategy: depend
+
+firewall-2c-ec2-instance :
+  stage : triggers
+  needs : 
+    - firewall-security-group # security-group가 끝나야 작업을 진행 strategy와 같이 사용
+  trigger :
+    include: main_bp/ec2/firewall-2c/.gitlab-ci.yml
+    strategy: depend
+
+vr-ec2-2a :
+  stage : triggers
+  needs : 
+    - vr-security-group # security-group가 끝나야 작업을 진행 strategy와 같이 사용
+  trigger :
+    include: main_vr/ec2/vr-2a/.gitlab-ci.yml
+    strategy: depend
+    
+vr-ec2-2c :
+  stage : triggers
+  needs : 
+    - vr-security-group # security-group가 끝나야 작업을 진행 strategy와 같이 사용
+  trigger :
+    include: main_vr/ec2/vr-2c/.gitlab-ci.yml
+    strategy: depend
