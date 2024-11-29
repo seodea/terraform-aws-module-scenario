@@ -1,6 +1,6 @@
 ################################################################################
 # VPC (naming : {company}-{env}-{mtehod}-vpc)
-# example : mzc-dev-eks-vpc
+# example : mzc-prod-mts-vpc
 ################################################################################
 
 resource "aws_vpc" "this" {
@@ -20,8 +20,8 @@ resource "aws_vpc" "this" {
 }
 
 ################################################################################
-# subnet (naming : {company}-{subnet용도}-{zone}-subnet)
-# example : mzc-eks-2a-subnet
+# subnet (naming : {env}-{method}-{subnet용도}-{zone}-subnet)
+# example : prod-public-2a-subnet
 ################################################################################
 
 resource "aws_subnet" "this" {
@@ -31,11 +31,17 @@ resource "aws_subnet" "this" {
 
   cidr_block = each.value.cidr
 
+  #prod-mts-bp-2a/2c-subnet 
+  # env : prod
+  # method : mts
+  # name : public
+
   tags = merge(
     var.tags,
     {
-      "Name" = format("%s-%s-%s-subnet", 
-        var.env, 
+      "Name" = format("%s-%s-%s-%s-subnet",
+        var.env,
+        var.method,
         each.value.name,
         split("-", var.azs[index(var.subnet[each.value.name].cidr, each.key)])[2]
       )
