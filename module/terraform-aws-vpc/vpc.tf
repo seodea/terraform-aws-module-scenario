@@ -21,6 +21,7 @@ resource "aws_vpc" "this" {
 
 ################################################################################
 # subnet (naming : {company}-{subnet용도}-{zone}-subnet)
+# example : mzc-eks-2a-subnet
 ################################################################################
 
 resource "aws_subnet" "this" {
@@ -34,7 +35,7 @@ resource "aws_subnet" "this" {
     var.tags,
     {
       "Name" = format("%s-%s-%s-subnet", 
-        var.company, 
+        var.env, 
         each.value.name,
         split("-", var.azs[index(var.subnet[each.value.name].cidr, each.key)])[2]
       )
