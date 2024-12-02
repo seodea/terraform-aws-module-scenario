@@ -1,7 +1,10 @@
-variable "method" { 
+variable "company" { 
     type = string
 }
-variable "company" { 
+variable "env" { 
+    type = string
+}
+variable "method" { 
     type = string
 }
 variable "vpc_id" { 
