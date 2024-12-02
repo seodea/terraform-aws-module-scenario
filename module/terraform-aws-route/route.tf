@@ -9,7 +9,7 @@ resource "aws_route_table" "this" {
   tags = merge(
     { "Name" = var.azs != "" ?
         format("%s-%s-%s-%s-rt", var.company, var.env, var.method, var.azs) :
-        format("%s-%s-%s-%s-rt", var.company, var.env, var.method)
+        format("%s-%s-%s-rt", var.company, var.env, var.method)
     },
     var.tags
   )
