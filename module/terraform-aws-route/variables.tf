@@ -7,6 +7,9 @@ variable "method" {
 variable "company" { 
     type = string
 }
+variable "azs" { 
+    type = string
+}
 variable "vpc_id" { 
     type = string
 }
