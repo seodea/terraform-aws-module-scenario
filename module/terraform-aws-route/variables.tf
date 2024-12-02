@@ -9,6 +9,7 @@ variable "company" {
 }
 variable "azs" { 
     type = string
+    default = ""
 }
 variable "vpc_id" { 
     type = string

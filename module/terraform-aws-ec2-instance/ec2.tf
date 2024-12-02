@@ -57,7 +57,6 @@ resource "aws_ebs_volume" "this" {
   for_each = { for disk in local.disk : disk.name=>disk }
   availability_zone = var.azs
   size              = each.value.size
-  # type              = each.value["type"]
   type              = can(each.value["type"]) ? each.value.type : null
   
   tags = merge(
