@@ -3,7 +3,7 @@
 ################################################################################
 
 resource "aws_security_group" "this" {
-  name                   = format("%s-%s-sg", var.env, var.method )
+  name                   = format("%s-%s-%s-sg", var.env, var.method, var.name )
   vpc_id                 = var.vpc_id
   
   lifecycle {
@@ -13,9 +13,10 @@ resource "aws_security_group" "this" {
   tags = merge(
     var.tags,
     { 
-      "Name" = format("%s-%s-sg",
+      "Name" = format("%s-%s-%s-sg",
         var.env,
-        var.method
+        var.method,
+        var.name
       )
     }
   )

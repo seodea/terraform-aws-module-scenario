@@ -7,6 +7,9 @@ variable "env" {
 variable "method" { 
     type = string
 }
+variable "name" { 
+    type = string
+}
 variable "azs" { 
     type = string
 }

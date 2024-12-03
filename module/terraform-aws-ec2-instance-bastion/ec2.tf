@@ -40,9 +40,9 @@ resource "aws_instance" "this" {
   tags = merge(
     var.tags, 
     { "Name" = format("%s-%s-%s-ec2",
-        var.company,
         var.env,
-        var.method
+        var.method,
+        var.name
       )
     }
   )

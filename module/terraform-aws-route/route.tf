@@ -1,5 +1,7 @@
 ################################################################################
 # route : {company}-{env}-{method}-rt
+# route table naming rule : {env}-{method}-{detail}-{azs(option)}-rt
+# example : prod-mts-elb-rt
 ################################################################################
 
 resource "aws_route_table" "this" {
@@ -9,8 +11,8 @@ resource "aws_route_table" "this" {
   tags = merge(
     { "Name" = (
         var.azs != "" ?
-          format("%s-%s-%s-%s-rt", var.company, var.env, var.method, var.azs) :
-          format("%s-%s-%s-rt", var.company, var.env, var.method)
+          format("%s-%s-%s-%s-rt", var.env, var.method, var.name, var.azs) :
+          format("%s-%s-%s-rt", var.env, var.method, var.name)
       )
     },
     var.tags
