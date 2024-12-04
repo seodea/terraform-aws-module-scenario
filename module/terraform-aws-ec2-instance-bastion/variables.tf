@@ -35,7 +35,7 @@ variable "instance_profile" {
 }
 variable "user_data" { 
     type = string
-    default = null
+    default = ""
 }
 variable "private_ip" { 
     type = string
