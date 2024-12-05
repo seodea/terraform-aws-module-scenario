@@ -17,7 +17,7 @@ module ec2 {
     key_name                    = var.key_name
     monitoring                  = var.monitoring
 
-    user_data                   = var.user_data
+    user_data                   = local.user_data
         
     iam_instance_profile        = var.iam_instance_profile # data로 변경도 고려
 

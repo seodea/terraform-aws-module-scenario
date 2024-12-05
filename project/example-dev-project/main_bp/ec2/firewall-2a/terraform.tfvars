@@ -1,6 +1,7 @@
-company = "sdh"
-env = "prd"
-method = "firewall"
+company = "yuanta"
+env = "prod"
+method = "mts"
+name = "firewall"
 
 numbering = [1]
 
@@ -12,21 +13,21 @@ azs = "ap-northeast-2a"
 
 # {company}-{env}-{method}-vpc
 vpc_filter_name = {
-  Name = "sdh-prd-service-vpc"
+  Name = "yuanta-prod-mts-vpc"
 }
 
-# {company}-{method}-{region}-subnet
+# {company}-{method}-{name}-{region}-subnet
 subnet_filter_name = {
-  Name = "sdh-sec-2a-subnet" # 단일 {company}-{method}-{region}-subnet
+  Name = "prod-mts-sec-2a-subnet" # 단일 {company}-{method}-{region}-subnet
 }
 
 ############################
 ### Security Group info ####
 ############################
 
-# {company}-{method}-sg
+# {company}-{method}-{name}-sg
 sg_filter_name = {
-  Name = [ "sdh-firewall-sg"] # 단일 {company}-{method}-sg
+  Name = [ "prod-mts-firewall-sg"] # 단일 {company}-{method}-{name}-sg
 }
 
 #################
@@ -38,5 +39,5 @@ instance_type = "c6in.xlarge"
 key_name = "sdh-firewall"
 
 tags = {
-    "env" = "prd"
+    "env" = "prod"
   }

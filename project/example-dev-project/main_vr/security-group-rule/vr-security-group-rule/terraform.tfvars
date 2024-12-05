@@ -1,19 +1,13 @@
-
-company   = "sdh"
-method = "vr"
+company = "yuanta"
+env = "prod"
+method  = "network"
+name  = "bp"
 
 vpc_filter_name = {
-  Name = "sdh-prd-vr-vpc"
+  Name = "yuanta-prod-network-vpc"
 }
 
-sg_filter_name_01 = {
-  Name = "sdh-vr-sg"
-}
-
-# sg_filter_name_02 = {
-#   Name = "dev-a-service-eks-sg"
-# }
 
 tags = {
-  env = "prd"
+  env = "prod"
 }

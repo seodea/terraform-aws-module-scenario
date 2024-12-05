@@ -17,7 +17,7 @@ locals {
       protocol = "tcp" #tcp(6), udp(17), all(-1)
       to_port = 22
       from_port = 22
-      cidr_block = ["160.61.7.191/32"]
+      cidr_block = ["160.61.7.191/32"] # example
       prefix_list_ids = []
       self = false
       # source_security_group_id = data.aws_security_groups.security_group_01.ids # example

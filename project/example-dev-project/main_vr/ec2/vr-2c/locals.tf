@@ -1,8 +1,10 @@
 locals {
     servers = { for v in var.numbering : 
-        format("%s-%s-%s-%s", var.company, var.env, var.method, v)=>local.data_block_device 
+        format("%s-%s-%s-%s", var.env, var.method, var.name, v)=>local.data_block_device
     }
     
+    user_data = ""
+
     root_block_device = [ # 안할경우 기본값으로 설정
         # {
         #   delete_on_termination   = true

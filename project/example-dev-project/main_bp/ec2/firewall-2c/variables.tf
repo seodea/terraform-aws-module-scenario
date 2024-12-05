@@ -11,6 +11,9 @@ variable "env" {
 variable "method" { 
     type = string
 }
+variable "name" { 
+    type = string
+}
 variable "azs" { 
     type = string
 }
@@ -34,10 +37,6 @@ variable "key_name" {
     default = null
 }
 variable "private_ip" { 
-    type = string
-    default = null
-}
-variable "user_data" { 
     type = string
     default = null
 }

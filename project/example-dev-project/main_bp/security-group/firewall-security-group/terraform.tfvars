@@ -1,11 +1,13 @@
 
-company = "sdh"
-method = "firewall"
+company = "yuanta"
+env = "prod"
+method = "mts"
+name = "firewall"
 
 vpc_filter_name = {
-  Name = "sdh-prd-service-vpc"
+  Name = "yuanta-prod-mts-vpc"
 }
 
 tags = {
-  env = "prd"
+  env = "prod"
 }

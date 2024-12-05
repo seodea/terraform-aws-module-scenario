@@ -5,6 +5,8 @@ module route {
     env = var.env
     method = var.method
     company = var.company
+    name = var.name
+    azs = var.azs
     
     vpc_id     = data.aws_vpc.this.id
     subnet_id  = data.aws_subnets.this.ids

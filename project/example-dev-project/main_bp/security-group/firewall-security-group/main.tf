@@ -4,8 +4,10 @@ module security_group {
 
     method = var.method
     company   = var.company
+    env     = var.env
+    name     = var.name
     
-    vpc_id = data.aws_vpc.this.id   
+    vpc_id = data.aws_vpc.this.id
 
     tags   = var.tags
 }

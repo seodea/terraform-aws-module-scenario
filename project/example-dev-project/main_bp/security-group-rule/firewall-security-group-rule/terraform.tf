@@ -10,7 +10,7 @@ terraform {
 
   backend "s3" {
     bucket         = "sdh-fsi-scenario-tf-state-backend"
-    key            = "043309359357/sdh-fis-service/prd/security-group-rule/firewall-security-group-rule"
+    key            = "043309359357/sdh-fis-service/prod/security-group-rule/firewall-security-group-rule"
     region         = "ap-northeast-2"
     # dynamodb setting
     # dynamodb_table = "table name" # dynamodb 테이블 이름 변경 가능(필요 시)

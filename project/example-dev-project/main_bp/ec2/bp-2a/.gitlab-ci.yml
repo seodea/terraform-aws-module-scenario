@@ -94,7 +94,7 @@ validate:
   # tags:
   #   - ''
 
-.plan:
+plan:
   stage: plan
   <<: *common-feature
   <<: *global_cache
@@ -119,7 +119,7 @@ validate:
   # tags:
   # - ''
 
-.apply:
+apply:
   stage: apply
   <<: *common-feature
   <<: *global_cache
@@ -131,9 +131,9 @@ validate:
     - terraform apply planfile
   dependencies:
     - plan
-  # when: manual # 수동으로 승인 시 주석 해제
+  when: manual # 수동으로 승인 시 주석 해제
 
-destroy-plan:
+.destroy-plan:
   stage: destroy-plan
   <<: *common-feature
   <<: *global_cache
@@ -145,7 +145,7 @@ destroy-plan:
   dependencies:
     - validate
 
-destroy:
+.destroy:
   stage: destroy
   <<: *common-feature
   <<: *global_cache

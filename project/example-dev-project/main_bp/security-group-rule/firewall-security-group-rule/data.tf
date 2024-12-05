@@ -20,39 +20,6 @@ data "aws_security_groups" "this" {
 
   filter {
     name   = "tag:Name"
-    values = [format("%s-%s-sg", var.company, var.method)]
+    values = [format("%s-%s-%s-sg", var.env, var.method, var.name )]
   }
 }
-
-# security group을 security group rule에서 사용을 할 경우 사용
-
-data "aws_security_groups" "security_group_01" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.this.id]
-  }
-
-  dynamic "filter" {
-    for_each = var.sg_filter_name_01
-    iterator = sg
-    content {
-        name   = "tag:${sg.key}"
-        values = [sg.value] # insert values here
-    }
-  }
-}
-# data "aws_security_groups" "security_group_02" {
-#   filter {
-#     name   = "vpc-id"
-#     values = [data.aws_vpc.this.id]
-#   }
-
-#   dynamic "filter" {
-#     for_each = var.sg_filter_name_02
-#     iterator = sg
-#     content {
-#         name   = "tag:${sg.key}"
-#         values = [sg.value] # insert values here
-#     }
-#   }
-# }

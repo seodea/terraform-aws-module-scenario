@@ -1,13 +1,15 @@
-
-company = "sdh"
-method  = "bp"
+company = "yuanta"
+env = "prod"
+method  = "mts"
+name  = "bp"
 
 vpc_filter_name = {
-  Name = "sdh-prd-service-vpc"
+  Name = "yuanta-prod-mts-vpc"
 }
 
+# {env}-{method}-{name}-sg
 # sg_filter_name_01 = {
-#   Name = "jw-bastion-sg"
+#   Name = "prod-mts-bp-sg"
 # }
 
 # sg_filter_name_02 = {
@@ -15,5 +17,5 @@ vpc_filter_name = {
 # }
 
 tags = {
-  env = "prd"
+  env = "prod"
 }

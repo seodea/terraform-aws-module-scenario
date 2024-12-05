@@ -1,7 +1,7 @@
 
-company = "sdh"
-env = "prd"
-method = "service"
+company = "yuanta"
+env = "prod"
+method = "mts"
 
 vpc_cidr = "10.0.0.0/16"
 azs = ["ap-northeast-2a", "ap-northeast-2c"]
@@ -19,7 +19,7 @@ subnet = {
   nat = {
     method = "private",
     cidr = ["10.0.11.0/24", "10.0.21.0/24"],
-    nat_gateway_subnet = "yes"
+    nat_gateway_subnet = "no"
   },
    
   sec = {
@@ -49,5 +49,5 @@ subnet = {
 }
 
 tags = {
-    "env" = "prd"
+    "env" = "prod"
   }

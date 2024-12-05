@@ -1,19 +1,20 @@
 
-company = "sdh"
-env = "prd"
-method = "tgw-attach"
+company = "yuanta"
+env = "prod"
+method = "mts"
+name = "tgw-attach"
 
 # {company}-{env}-{method}-vpc
 vpc_filter_name = {
-  Name = "sdh-prd-service-vpc"
+  Name = "yuanta-prod-mts-vpc"
 }
 
-# {company}-{subnet용도}-{zone}-subnet
+# {env}-{vpc method}-{subnet용도}-{zone}-subnet
 subnet_filter_name = {
-  # Name = "sdh-eks-2a-subnet" # 단일 {company}-{method}-{region}-subnet
-  Name = "sdh-tgw-attach-*" # 같은 용도의 sunbet 여러개 선택 시  
+  # Name = "yuanta-eks-2a-subnet" #
+  Name = "prod-mts-tgw-attach-*" # 같은 용도의 sunbet 여러개 선택 시  
 }
 
 tags = {
-  env = "prd"
+  env = "prod"
 }
