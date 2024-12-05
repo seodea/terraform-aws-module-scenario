@@ -79,8 +79,9 @@ resource "aws_eip" "this" {
 
   tags = merge(
     {
-      "Name" = format("%s-%s-nat-eip", 
-        var.company, 
+      "Name" = format("%s-%s-%s-nat-eip", 
+        var.env,
+        var.method,
         split("-", var.azs[index(var.subnet[each.value.name].cidr, each.key)])[2]
       )      
     },
@@ -96,8 +97,7 @@ resource "aws_nat_gateway" "this" {
 
   tags = merge(
     {
-      "Name" = format("%s-%s-%s-%s-nat",
-        var.company,
+      "Name" = format("%s-%s-%s-nat",
         var.env,
         var.method,
         split("-", var.azs[index(var.subnet[each.value.name].cidr, each.key)])[2]
